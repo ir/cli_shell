@@ -2,17 +2,19 @@
 //
 
 #include <iostream>
+#include <map>
+#include <unordered_map>
+#include <functional>
 #include "CLI.h"
+#include "features.h"
 
 int main()
 {
     CLI cli = CLI();
-    cli.Insert("new       w");
-    while (1)
-    {
-        cli.Input();
-    }
+    cli.Insert("command",&FCMD::printer);
     
+    while(1)
+    cli.Input();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
