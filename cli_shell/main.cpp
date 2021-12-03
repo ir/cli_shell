@@ -2,10 +2,17 @@
 //
 
 #include <iostream>
+#include "CLI.h"
 
 int main()
 {
-    std::cout << "Hello World!\n";
+    CLI cli = CLI();
+    cli.Insert("new       w");
+    while (1)
+    {
+        cli.Input();
+    }
+    
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
