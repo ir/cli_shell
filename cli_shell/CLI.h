@@ -11,14 +11,6 @@
 #include "string.h"
 #endif // !__CLI
 
-namespace hi
-{
-	void functhing()
-	{
-		std::cout << "func call\n";
-	}
-}
-
 class CLI
 {
 public:
@@ -46,8 +38,18 @@ public:
 		//get user input
 		std::string input = "";
 		std::getline(std::cin, input);
+		
 		if (input.length() == 0)
 			return;
+		for (const char c : input)
+		{
+			if (!std::isalnum(c))
+			{
+				color::print_color(color::ERROR, "only characters and integers are allowed\n");
+				return;
+			}
+		}
+			
 		//clean up
 		input = string::reduce(input);
 		input = string::trim(input);
@@ -69,13 +71,11 @@ public:
 		std::cout << "Invalid command\n";
 		return;
 	}
-
-private:
 	int item_count = 0;
-	std::map<int,std::function<void()>> com_func_map = {};
-	std::vector<std::tuple<std::string, std::string, int,std::function<void()>>> command_list = {};
+	std::vector<std::tuple<std::string, std::string, int, std::function<void()>>> command_list = {};
 	std::vector<std::string> current_input;
 
+private:
 	void tokenizer(std::string s, std::vector<std::string>* v)
 	{
 		if (v->size() != 0)
@@ -87,16 +87,40 @@ private:
 			v->push_back(word);
 		}
 	}
-
+	void signal_callback_handler(int signum) {
+		color::print_color(color::ERROR, "Caught signal " + std::to_string(signum));
+		// Terminate program
+		exit(signum);
+	}
 };
 
 CLI::CLI()
 {
-	std::cout << "CLI created\n";
+	color::print_color(color::INFO,"CLI created\n");
 }
 
 CLI::~CLI()
 {
-	std::cout << "CLI destroyed\n";
+	color::print_color(color::ERROR,"CLI destroyed\n");
 }
 
+namespace FCMD
+{
+	CLI cli = CLI();
+	void Printer();
+	void Help();
+}
+
+void FCMD::Printer()
+{
+	std::cout << "Hello, World!\n";
+}
+
+void FCMD::Help()
+{
+	color::print_color({255,215,220},"list of all commands:\n");
+	for (const auto& m : FCMD::cli.command_list)
+	{
+		color::print_color(color::TEXT, " " + std::get<0>(m) + "\n");
+	}
+}
