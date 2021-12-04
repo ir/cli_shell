@@ -4,12 +4,12 @@
 #include <iostream>
 #include "CLI.h"
 #include "fcmds.h"
-
 extern CLI cli;
 
 int main()
 {
-	cli.Insert("Help", FCMDS::Help);
+	cli.Insert("Help", FCMDS::Help,"Displays all commands");
+	cli.Insert("newmenu", NULL, "new menu");
 	while (1)
 	{
 		cli.Input();

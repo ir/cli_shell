@@ -21,9 +21,14 @@ void CLI::Insert(std::string title, std::function<void()>func, std::string help_
 	title = string::reduce(title);
 	title = string::trim(title);
 	std::transform(title.begin(), title.end(), title.begin(), ::tolower);
+	//first char uppercase
+	std::string h_t = title;
+	while (h_t.length() < 16)
+		h_t += " ";
+	if (!std::isupper(h_t.at(0)))
+		h_t.at(0) = std::toupper(h_t.at(0));
 	//com_func_map.insert({ item_count,func });
-	command_list.push_back({ title,help_title,item_count,func });
-	item_count++;
+	command_list.push_back({ title,help_title,h_t,func });
 }
 
 void CLI::Input()
@@ -49,20 +54,22 @@ void CLI::Input()
 	input = string::trim(input);
 	std::transform(input.begin(), input.end(), input.begin(), ::tolower);
 	//store input sep by spaces into current_input vec
-	tokenizer(input, &current_input);
+	tokenizer(input, &current_input); 
+
 	//iterate commands
 	for (const auto& c : command_list)
 	{
 		//input equal to title
 		if (input == std::get<0>(c))
 		{
-			//call function corresponding to item_count
-			std::get<3>(c)();
+			//function call
+			if (!std::get<3>(c) == NULL)
+				std::get<3>(c)();
 			std::cout << "\n";
 			return;
 		}
 	}
-	color::print_color(color::ERROR, "Invalid command\n");
+	color::print_color(color::ERROR, "Invalid command\n\n");
 	return;
 }
 

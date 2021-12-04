@@ -5,9 +5,10 @@
 #include <vector>
 #include <string>
 #include <tuple>
-#include<sstream>
+#include <sstream>
 #include <algorithm>
 #include <functional>
+#include <cctype>
 class CLI
 {
 public:
@@ -15,7 +16,7 @@ public:
 	~CLI();
 
 	int item_count = 0;
-	std::vector<std::tuple<std::string, std::string, int, std::function<void()>>> command_list{};
+	std::vector<std::tuple<std::string, std::string, std::string, std::function<void()>>> command_list{};
 	std::vector<std::string> current_input;
 
 	void Insert(std::string title, std::function<void()>func, std::string help_title = "");
