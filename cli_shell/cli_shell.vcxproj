@@ -139,7 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="cli.cpp" />
+    <ClCompile Include="CLI.cpp" />
     <ClCompile Include="fcmds.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="string.cpp" />

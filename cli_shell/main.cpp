@@ -10,8 +10,10 @@ extern CLI cli;
 int main()
 {
 	cli.Insert("Help", FCMDS::Help);
-	
-	cli.Input();
+	while (1)
+	{
+		cli.Input();
+	}
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

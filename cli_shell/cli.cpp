@@ -8,7 +8,7 @@ CLI::CLI()
 
 CLI::~CLI()
 {
-	color::print_color(color::ERROR, "CLI destroyed\n");
+	color::print_color(color::SUCCESS, "CLI destroyed\n");
 }
 
 void CLI::Insert(std::string title, std::function<void()>func, std::string help_title)
@@ -62,7 +62,7 @@ void CLI::Input()
 			return;
 		}
 	}
-	std::cout << "Invalid command\n";
+	color::print_color(color::ERROR, "Invalid command\n");
 	return;
 }
 

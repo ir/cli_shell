@@ -25,7 +25,6 @@ private:
 	void tokenizer(std::string s, std::vector<std::string>* v);
 };
 
-
 #endif // !__CLI
 
 
