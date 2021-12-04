@@ -139,10 +139,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="cli.cpp" />
+    <ClCompile Include="fcmds.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="string.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CLI.h" />
+    <ClInclude Include="fcmds.h" />
     <ClInclude Include="string.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

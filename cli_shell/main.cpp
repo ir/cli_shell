@@ -1,18 +1,17 @@
-// cli_shell.cpp : This file contains the 'main' function. Program execution begins and ends there.
+// CLI__shell.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
 #include <iostream>
 #include "CLI.h"
+#include "fcmds.h"
 
+extern CLI cli;
 
 int main()
 {
-    
-    CLI* cli = &FCMD::cli;
-    cli->Insert("command", &FCMD::Printer);
-    cli->Insert("help", &FCMD::Help);
-    while(1)
-    cli->Input();
+	cli.Insert("Help", FCMDS::Help);
+	
+	cli.Input();
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

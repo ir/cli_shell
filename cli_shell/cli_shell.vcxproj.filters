@@ -18,9 +18,21 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="cli.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="fcmds.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="string.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CLI.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fcmds.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="string.h">
