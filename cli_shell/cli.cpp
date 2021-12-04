@@ -11,29 +11,41 @@ CLI::~CLI()
 	color::print_color(color::SUCCESS, "CLI destroyed\n");
 }
 
-void CLI::Insert(std::string title, std::function<void()>func, std::string help_title)
+void CLI::Insert(std::string title, std::function<void()>func, int argsize, std::string help_title)
 {
 	if (title.length() == 0)
 		return;
 	else if (title.length() > 16)
 		title = title.substr(0, 16);
+	bool is_menu = false;
+	if (title.at(0) == '_')
+	{
+		is_menu = true;
+		title = title.substr(1, title.length());
+	}
+		
 	//clean up
 	title = string::reduce(title);
 	title = string::trim(title);
 	std::transform(title.begin(), title.end(), title.begin(), ::tolower);
+	
 	//first char uppercase
 	std::string h_t = title;
 	while (h_t.length() < 16)
 		h_t += " ";
 	if (!std::isupper(h_t.at(0)))
 		h_t.at(0) = std::toupper(h_t.at(0));
-	//com_func_map.insert({ item_count,func });
-	command_list.push_back({ title,help_title,h_t,func });
+	
+	if (is_menu)
+		dir_list.push_back({h_t,title});
+	
+	command_list.push_back({ title,help_title,h_t,func,argsize });
 }
 
 void CLI::Input()
 {
-	std::cout << " > ";
+	color::print_color({ 159,94,224 }, CLI::cur_dir);
+	color::print_color({ 94,159,224 }, " > ");
 	//get user input
 	std::string input = "";
 	std::getline(std::cin, input);
@@ -42,7 +54,7 @@ void CLI::Input()
 		return;
 	for (const char c : input)
 	{
-		if (!std::isalnum(c))
+		if (!std::isalnum(c) && c != ' ')
 		{
 			color::print_color(color::ERROR, "only characters and integers are allowed\n");
 			return;
@@ -55,12 +67,17 @@ void CLI::Input()
 	std::transform(input.begin(), input.end(), input.begin(), ::tolower);
 	//store input sep by spaces into current_input vec
 	tokenizer(input, &current_input); 
-
+	
 	//iterate commands
 	for (const auto& c : command_list)
 	{
+		if (current_input.size() > std::get<4>(c) + 1)
+		{
+			color::print_color(color::ERROR, "Too many arguments\n\n");
+			return;
+		}
 		//input equal to title
-		if (input == std::get<0>(c))
+		if (current_input.at(0) == std::get<0>(c))
 		{
 			//function call
 			if (!std::get<3>(c) == NULL)

@@ -5,15 +5,15 @@ void color::print_color(int COL, std::string data)
     rgb color = { 255,255,255 };
     switch (COL)
     {
-    case 0: color = { 255,0,255 };
+    case TEXT: color = { 255,0,255 };
           break;
-    case 1: color = { 200,235,255 };
+    case OUT: color = { 200,235,255 };
           break;
-    case 2: color = { 255,0,0 };
+    case ERROR: color = { 255,0,0 };
           break;
-    case 3: color = { 0,255,0 };
+    case SUCCESS: color = { 0,255,0 };
           break;
-    case 4: color = { 95,95,225 };
+    case INFO: color = { 95,95,225 };
           break;
     default: color = { 255,255,255 };
            break;

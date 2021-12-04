@@ -15,11 +15,14 @@ public:
 	CLI();
 	~CLI();
 
-	int item_count = 0;
-	std::vector<std::tuple<std::string, std::string, std::string, std::function<void()>>> command_list{};
+	std::string cur_dir = "home";
+	int n = 0;
+	std::vector <std::vector<std::string>> dir_list = { {cur_dir, "_home" }
+};
+	std::vector<std::tuple<std::string, std::string, std::string, std::function<void()>,int>> command_list{};
 	std::vector<std::string> current_input;
 
-	void Insert(std::string title, std::function<void()>func, std::string help_title = "");
+	void Insert(std::string title, std::function<void()>func, int argsize, std::string help_title = "");
 	void Input();
 
 private:
