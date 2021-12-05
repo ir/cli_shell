@@ -5,7 +5,7 @@
 #include "string.h"
 namespace FCMDS
 {
-	void ChangeDir(std::string dir);
+	void ChangeDir(std::string cur_dir, std::string new_dir);
 	void Help();
 	void Printer();
 }

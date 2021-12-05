@@ -1,6 +1,6 @@
 #include "CLI.h"
 #include "string.h"
-
+#include "fcmds.h"
 CLI::CLI()
 {
 	color::print_color(color::INFO, "CLI created\n");
@@ -15,6 +15,18 @@ CLI::~CLI()
 void CLI::InsertDir(std::string dir_title, std::string parent_title)
 {
 	dir_list.push_back({ dir_title,parent_title,{} });
+	for (auto& d : dir_list)
+	{
+		if (parent_title == d.dir_title && d.parent_title.length() != 0)
+		{
+			d.com_list.push_back({ parent_title,[&] {FCMDS::ChangeDir(cur_dir, d.dir_title); },0,"__Submenu of " + parent_title });
+		}
+		if (dir_title == d.parent_title && d.parent_title.length() != 0)
+		{
+			d.com_list.push_back({ dir_title,[&] {FCMDS::ChangeDir(cur_dir,d.parent_title); },0,"__Parentmenu of " + dir_title });
+
+		}
+	}
 }
 
 void CLI::Insert(std::string dir_title, commands com_list)
@@ -41,6 +53,7 @@ void CLI::Insert(std::string dir_title, commands com_list)
 
 void CLI::Input()
 {
+	color::print_color({ 94,94,224 }, cur_dir);
 	color::print_color({ 94,159,224 }, " > ");
 	//get user input
 	std::string input = "";
@@ -79,7 +92,10 @@ void CLI::Input()
 			if (current_input.at(0) == std::get<0>(d.com_list.at(i)))
 			{
 				if (!std::get<1>(d.com_list.at(i)) == NULL)
-					std::get<1>(d.com_list.at(i))();
+				{
+					std::get<1>(d.com_list.at(i))();                                                                      
+				}
+					
 				return;
 			}
 		}

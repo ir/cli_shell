@@ -2,9 +2,9 @@
 #include "CLI.h"
 CLI cli;
 
-void FCMDS::ChangeDir(std::string dir)
+void FCMDS::ChangeDir(std::string cur_dir, std::string new_dir)
 {
-	
+	cli.cur_dir = new_dir;
 }
 
 void FCMDS::Printer()
@@ -17,6 +17,7 @@ void FCMDS::Help()
 	color::print_color({ 94,224,224 }, "list of all commands:\n");
 	for (const auto& d : cli.dir_list)
 	{
+		
 		for (int i = 0; i < d.com_list.size(); i++)
 		{
 			std::string title = std::get<0>(d.com_list.at(i));
@@ -37,18 +38,3 @@ void FCMDS::Help()
 
 }
 
-/*
-void FCMDS::Help()
-{
-	color::print_color({ 94,224,224 }, "list of all commands:\n");
-	
-	for (const auto& m : cli.command_list)
-	{
-		color::print_color(color::TEXT, " " + std::get<2>(m) + " " + std::get<1>(m));
-		for (const auto& d : cli.dir_list)
-			for(const auto& s : d)
-				if (s == std::get<0>(m))
-					color::print_color(color::TEXT, " _SUBMENU_");
-		printf("\n");
-	}
-}*/

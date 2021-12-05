@@ -22,7 +22,7 @@ public:
 		std::string dir_title;
 		std::vector<std::tuple<std::string, std::function<void()>, int, std::string>> com_list;
 	};
-
+	
 	struct commands
 	{
 		std::string title;
@@ -31,7 +31,7 @@ public:
 		std::string help_title;
 	};
 
-	int n = 0;
+	std::string cur_dir = "home";
 	std::vector<dir> dir_list;
 	std::vector<std::string> current_input;
 
