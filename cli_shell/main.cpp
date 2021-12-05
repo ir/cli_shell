@@ -8,8 +8,11 @@ extern CLI cli;
 
 int main()
 {
-	cli.Insert("Help", FCMDS::Help,0,"Displays all commands");
-	cli.Insert("_Menu", NULL,0, "Opens the menu directory");
+	cli.InsertDir("", "home");
+	cli.Insert("home", { "Help",FCMDS::Help,0,"Lists all available commands" });
+	cli.Insert("home", { "Print",FCMDS::Printer,0,"This is the print title" });
+	cli.InsertDir("home", "submenu");
+	cli.Insert("submenu", { "Printer",FCMDS::ChangeDir,0,"This is the printer title" });
 	while (1)
 	{
 		cli.Input();

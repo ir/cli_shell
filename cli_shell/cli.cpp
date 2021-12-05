@@ -9,42 +9,38 @@ CLI::CLI()
 CLI::~CLI()
 {
 	color::print_color(color::SUCCESS, "CLI destroyed\n");
+	
 }
 
-void CLI::Insert(std::string title, std::function<void()>func, int argsize, std::string help_title)
+void CLI::InsertDir(std::string dir_title, std::string parent_title)
 {
-	if (title.length() == 0)
+	dir_list.push_back({ dir_title,parent_title,{} });
+}
+
+void CLI::Insert(std::string dir_title, commands com_list)
+{
+	if (com_list.title.length() == 0)
 		return;
-	else if (title.length() > 16)
-		title = title.substr(0, 16);
-	bool is_menu = false;
-	if (title.at(0) == '_')
-	{
-		is_menu = true;
-		title = title.substr(1, title.length());
-	}
-		
+	else if (com_list.title.length() > 16)
+		com_list.title = com_list.title.substr(0, 16);
+
 	//clean up
-	title = string::reduce(title);
-	title = string::trim(title);
-	std::transform(title.begin(), title.end(), title.begin(), ::tolower);
-	
-	//first char uppercase
-	std::string h_t = title;
-	while (h_t.length() < 16)
-		h_t += " ";
-	if (!std::isupper(h_t.at(0)))
-		h_t.at(0) = std::toupper(h_t.at(0));
-	
-	if (is_menu)
-		dir_list.push_back({h_t,title});
-	
-	command_list.push_back({ title,help_title,h_t,func,argsize });
+	com_list.title = string::reduce(com_list.title);
+	com_list.title = string::trim(com_list.title);
+	std::transform(com_list.title.begin(), com_list.title.end(), com_list.title.begin(), ::tolower);
+
+	for (auto& d : dir_list)
+	{
+		if (dir_title == d.dir_title)
+		{
+			color::print_color(color::SUCCESS, "good\n");
+			d.com_list.push_back({ com_list.title,com_list.func,com_list.argsize, com_list.help_title });
+		}
+	}
 }
 
 void CLI::Input()
 {
-	color::print_color({ 159,94,224 }, CLI::cur_dir);
 	color::print_color({ 94,159,224 }, " > ");
 	//get user input
 	std::string input = "";
@@ -54,7 +50,7 @@ void CLI::Input()
 		return;
 	for (const char c : input)
 	{
-		if (!std::isalnum(c) && c != ' ')
+		if (!std::isalnum(c) && c != ' ' && c != '_')
 		{
 			color::print_color(color::ERROR, "only characters and integers are allowed\n");
 			return;
@@ -69,23 +65,26 @@ void CLI::Input()
 	tokenizer(input, &current_input); 
 	
 	//iterate commands
-	for (const auto& c : command_list)
+	for (const auto& d : dir_list)
 	{
-		if (current_input.size() > std::get<4>(c) + 1)
+		for (int i = 0; i < d.com_list.size(); i++)
 		{
-			color::print_color(color::ERROR, "Too many arguments\n\n");
-			return;
-		}
-		//input equal to title
-		if (current_input.at(0) == std::get<0>(c))
-		{
-			//function call
-			if (!std::get<3>(c) == NULL)
-				std::get<3>(c)();
-			std::cout << "\n";
-			return;
+			//argsize check
+			if (current_input.size() > std::get<2>(d.com_list.at(i)) + 1) 
+			{
+				color::print_color(color::ERROR, "Too many arguments\n");
+				return;
+			}
+			//check if input is equal to title
+			if (current_input.at(0) == std::get<0>(d.com_list.at(i)))
+			{
+				if (!std::get<1>(d.com_list.at(i)) == NULL)
+					std::get<1>(d.com_list.at(i))();
+				return;
+			}
 		}
 	}
+	
 	color::print_color(color::ERROR, "Invalid command\n\n");
 	return;
 }
