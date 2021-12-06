@@ -20,9 +20,10 @@ int main()
 	cli.Insert("home", { "Help",FCMDS::Help,0,"Help help title"});
 	//cli.Insert("home", { "Other",FCMDS::Printer,0,"other help title"});
 	cli.InsertDir("sub", "home");
+	cli.InsertDir("ssub", "sub");
 	cli.Insert("sub", {"Help", FCMDS::Help, 0, "Subhelp title"});
 	cli.Insert("sub", { "print",FCMDS::Printer,0,"Print title" });
-	cli.InsertDir("ssub", "sub");
+	
 	cli.Insert("ssub", { "Help",FCMDS::Help,0,"SSubhelp title" });
 	while (1)
 	{

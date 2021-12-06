@@ -5,6 +5,7 @@ CLI cli;
 void FCMDS::ChangeDir(std::string cur_dir, std::string new_dir)
 {
 	cli.cur_dir = new_dir;
+	color::print_color(color::OUT, "[+] new dir: " + cli.cur_dir + "\n");
 	
 }
 

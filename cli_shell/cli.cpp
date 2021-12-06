@@ -21,23 +21,19 @@ void CLI::InsertDir(std::string title, std::string parent)
 	}
 	else 
 	{
-		sub_titles.push_back(title);
-		
-		//add submenu to vector
 		dir_list.push_back({ title,parent,{} });
+		
 		for (auto& d : dir_list)
 		{
 			if (d.title == parent)
 			{
-				for (auto& s : sub_titles)
-				{
-					if (title == s)
-						st = s;
-				}
-				d.com_list.push_back({ title,[&]() {FCMDS::ChangeDir(cur_dir,st); },0,"Submenu" });
+				d.com_list.push_back({title,[&]() {; },0,"_Submenu of: " + d.title});
+			}
+			if (d.title == title)
+			{
+				d.com_list.push_back({ parent,NULL,0,"_ParentMenu of: " + d.title });
 			}
 		}
-		//add submenu to parent menu as item
 	}
 }
 
@@ -54,8 +50,6 @@ void CLI::Insert(std::string dir_title, commands com_list)
 	
 	for (auto& d : dir_list)
 	{
-		//std::cout << d.title << std::endl;
-		//std::cout << dir_title << std::endl;
 		if (d.title == dir_title)
 		{
 			color::print_color(color::SUCCESS, "[+] added: " + com_list.title + " to: " + d.title + "\n");
@@ -111,6 +105,23 @@ void CLI::Input()
 					{
 						d.com_list.at(i).func();
 						return;
+					}
+				}
+				else // this is a weird hack but it works so oh well
+				{
+					for (auto& dd : dir_list)
+					{
+						if ((current_input.at(0) == dd.parent && dd.parent != "__BASE_MENU"))
+						{
+							FCMDS::ChangeDir(cur_dir, dd.parent);
+							return;
+						}
+						else if ((current_input.at(0) == dd.title && dd.parent == d.title) && dd.title != d.title)
+						{
+							
+							FCMDS::ChangeDir(cur_dir, current_input.at(0));
+							return;
+						}
 					}
 				}
 			}

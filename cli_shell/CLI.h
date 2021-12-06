@@ -31,8 +31,7 @@ public:
 		std::vector<commands> com_list;
 	};
 	
-	std::string st;
-	std::vector<std::string> sub_titles;
+	
 	std::string cur_dir = "";
 	std::vector<Dir> dir_list;
 	//0 = cur command, others = args
