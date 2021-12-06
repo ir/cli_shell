@@ -9,11 +9,13 @@ extern CLI cli;
 int main()
 {
 	
-	cli.InsertDir("", "home");
-	cli.Insert("home", { "Help",FCMDS::Help,0,"Lists all available commands" });
-	cli.Insert("home", { "Print",FCMDS::Printer,0,"This is the print title" });
-	cli.InsertDir("home", "submenu");
-	//cli.Insert("submenu", { "Printer",[]() {FCMDS::ChangeDir; } ,0,"This is the printer title" });
+	cli.InsertDir("home", "__BASE_MENU");
+	cli.Insert("home",  {"Help",FCMDS::Help, 0, "Help_title" } );
+	cli.Insert("home",  {"Help2",FCMDS::Printer, 0, "Help_title2" } );
+	cli.InsertDir("submenu", "home");
+	cli.Insert("submenu", { "Print",FCMDS::Printer,0,"Print_title"});
+	
+	
 	while (1)
 	{
 		cli.Input();

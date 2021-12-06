@@ -16,13 +16,7 @@ public:
 	CLI();
 	~CLI();
 
-	struct dir
-	{
-		std::string parent_title;
-		std::string dir_title;
-		std::vector<std::tuple<std::string, std::function<void()>, int, std::string>> com_list;
-	};
-	
+
 	struct commands
 	{
 		std::string title;
@@ -31,13 +25,21 @@ public:
 		std::string help_title;
 	};
 
+	struct _Dir
+	{
+		std::string title;
+		std::string parent;
+		std::vector<commands> com_list;
+	};
+	
+	
 	std::string cur_dir = "home";
-	std::vector<dir> dir_list;
+	std::vector<_Dir> _dir_list;
+	
 	std::vector<std::string> current_input;
 
-	void InsertDir(std::string dir_title, std::string parent_title = "");
+	void InsertDir(std::string title, std::string parent_title = "");
 	void Insert(std::string dir_title, commands com_list);
-	void Insert(std::string title, std::function<void()>func, int argsize, std::string help_title = "");
 	void Input();
 
 private:
