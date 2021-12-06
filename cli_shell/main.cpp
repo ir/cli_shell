@@ -1,4 +1,4 @@
-// CLI__shell.cpp : This file contains the 'main' function. Program execution begins and ends there.
+// CLI_shell.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
 #include <iostream>
@@ -6,16 +6,24 @@
 #include "fcmds.h"
 extern CLI cli;
 
+void call(std::string str)
+{
+	std::cout << str << std::endl;
+}
+
 int main()
 {
-	
+
+	// insert dir 
 	cli.InsertDir("home", "__BASE_MENU");
-	cli.Insert("home",  {"Help",FCMDS::Help, 0, "Help_title" } );
-	cli.Insert("home",  {"Help2",FCMDS::Printer, 0, "Help_title2" } );
-	cli.InsertDir("submenu", "home");
-	cli.Insert("submenu", { "Print",FCMDS::Printer,0,"Print_title"});
-	
-	
+	// insert dir items
+	cli.Insert("home", { "Help",FCMDS::Help,0,"Help help title"});
+	//cli.Insert("home", { "Other",FCMDS::Printer,0,"other help title"});
+	cli.InsertDir("sub", "home");
+	cli.Insert("sub", {"Help", FCMDS::Help, 0, "Subhelp title"});
+	cli.Insert("sub", { "print",FCMDS::Printer,0,"Print title" });
+	cli.InsertDir("ssub", "sub");
+	cli.Insert("ssub", { "Help",FCMDS::Help,0,"SSubhelp title" });
 	while (1)
 	{
 		cli.Input();

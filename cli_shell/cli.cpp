@@ -13,90 +13,62 @@ CLI::~CLI()
 
 void CLI::InsertDir(std::string title, std::string parent)
 {
-	std::string* t = &title;
-	if(parent == "")
-		_dir_list.push_back({ title,parent,{} });
-	else
-	{
-		_dir_list.push_back({ title,parent,{} });
-		_Dir a;
-		for (auto& c : _dir_list)
-		{
-			if (c.title == title)
-				a = c;
-		}
-
-		for (auto& d : _dir_list)
-		{
-			if (parent == a.title)
-			{
-				d.com_list.push_back({ title,[&] {FCMDS::ChangeDir(cur_dir,*t); },0,"submenu_help" });
-			}
-		}
-	}
-}
-
-/*
-void CLI::InsertDir(std::string* title, std::string parent)
-{
-	if (parent == "")
-		_dir_list.push_back({ *title,parent,{} });
-	else
-	{
-		_dir_list.push_back({ *title,parent,{} });
-		_Dir a;
-		for (auto& c : _dir_list)
-		{
-			if (c.title == *title)
-				a = c;
-		}
-		
-		for (auto& d : _dir_list)
-		{
-			if (parent == d.title)
-			{
-				d.com_list.push_back({ title,[&] {FCMDS::ChangeDir(cur_dir,*title); },0,"submenu help" });
-			}
-		}
-	}
-}
-*/
-void CLI::Insert(std::string dir_title, commands command_list)
-{
-	std::string* c = &command_list.title;
-	if (c->length() == 0)
-		return;
-	else if (c->length() > 16)
-		*c = c->substr(0, 16);
-
-	for (auto& c : _dir_list)
-	{
-		std::cout << c.title << std::endl;
-		for (int i = 0; i < c.com_list.size(); i++)
-		{
-			std::cout << c.com_list.at(i).title << std::endl;
-		}
-	}
-
-	//clean up
-	*c = string::reduce(c->c_str());
-	*c = string::trim(c->c_str());
-	std::transform(c->begin(), c->end(), c->begin(), ::tolower);
-	for (auto& d : _dir_list)
-	{
-		if (dir_title == d.title)
-		{
-			d.com_list.push_back(command_list);
-		}
-	}
 	
+	if (parent == "__BASE_MENU")
+	{
+		dir_list.push_back({ title,parent,{} });
+		cur_dir = title;
+	}
+	else 
+	{
+		sub_titles.push_back(title);
+		
+		//add submenu to vector
+		dir_list.push_back({ title,parent,{} });
+		for (auto& d : dir_list)
+		{
+			if (d.title == parent)
+			{
+				for (auto& s : sub_titles)
+				{
+					if (title == s)
+						st = s;
+				}
+				d.com_list.push_back({ title,[&]() {FCMDS::ChangeDir(cur_dir,st); },0,"Submenu" });
+			}
+		}
+		//add submenu to parent menu as item
+	}
+}
+
+void CLI::Insert(std::string dir_title, commands com_list)
+{
+	if (com_list.title.length() == 0)
+		return;
+	else if (com_list.title.length() > 16)
+		com_list.title = com_list.title.substr(0, 16);
+	//clean up, tolower
+	com_list.title = string::reduce(com_list.title.c_str());
+	com_list.title = string::trim(com_list.title.c_str());
+	std::transform(com_list.title.begin(), com_list.title.end(), com_list.title.begin(), ::tolower);
+	
+	for (auto& d : dir_list)
+	{
+		//std::cout << d.title << std::endl;
+		//std::cout << dir_title << std::endl;
+		if (d.title == dir_title)
+		{
+			color::print_color(color::SUCCESS, "[+] added: " + com_list.title + " to: " + d.title + "\n");
+			d.com_list.push_back(com_list);
+		}
+	}
 }
 
 void CLI::Input()
 {
 	color::print_color({ 94,94,224 }, cur_dir);
 	color::print_color({ 94,159,224 }, " > ");
-	//get user input
+	//user input
 	std::string input = "";
 	std::getline(std::cin, input);
 
@@ -118,59 +90,32 @@ void CLI::Input()
 	//store input sep by spaces into current_input vec
 	tokenizer(input, &current_input); 
 	
-
 	//iterate commands
-	for (const auto& d : _dir_list)
+	for (const auto& d : dir_list)
 	{
-		
 		if (d.title == cur_dir)
 		{
-			std::cout << "dir: " << d.title << std::endl;
 			for (int i = 0; i < d.com_list.size(); i++)
 			{
-				std::cout << "item: " << d.com_list.at(i).title << std::endl;
+				//argsize check
 				if (current_input.size() > d.com_list.at(i).argsize + 1)
 				{
 					color::print_color(color::ERROR, "Too many arguments\n");
 					return;
 				}
-				//check if input is equal to title
+				
+				//accessing correct command struct
 				if (current_input.at(0) == d.com_list.at(i).title)
 				{
-					if (!d.com_list.at(i).func == NULL)
+					if (d.com_list.at(i).func != NULL)
 					{
 						d.com_list.at(i).func();
+						return;
 					}
-
-					return;
 				}
 			}
 		}
 	}
-	for (const auto& d : _dir_list)
-	{
-		for (int i = 0; i < d.com_list.size(); i++)
-		{
-			//argsize check
-			if (current_input.size() > d.com_list.at(i).argsize + 1)
-			{
-				color::print_color(color::ERROR, "Too many arguments\n");
-				return;
-			}
-			
-			//check if input is equal to title
-			if (current_input.at(0) == d.com_list.at(i).title)
-			{
-				if (!d.com_list.at(i).func == NULL)
-				{
-					d.com_list.at(i).func();
-				}
-
-				return;
-			}
-		}
-	}
-	
 	color::print_color(color::ERROR, "Invalid command\n\n");
 	return;
 }

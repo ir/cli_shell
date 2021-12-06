@@ -16,7 +16,6 @@ public:
 	CLI();
 	~CLI();
 
-
 	struct commands
 	{
 		std::string title;
@@ -25,21 +24,24 @@ public:
 		std::string help_title;
 	};
 
-	struct _Dir
+	struct Dir
 	{
 		std::string title;
 		std::string parent;
 		std::vector<commands> com_list;
 	};
 	
-	
-	std::string cur_dir = "home";
-	std::vector<_Dir> _dir_list;
-	
+	std::string st;
+	std::vector<std::string> sub_titles;
+	std::string cur_dir = "";
+	std::vector<Dir> dir_list;
+	//0 = cur command, others = args
 	std::vector<std::string> current_input;
-
-	void InsertDir(std::string title, std::string parent_title = "");
+	//create new dir
+	void InsertDir(std::string title, std::string parent = "");
+	//insert item into dir
 	void Insert(std::string dir_title, commands com_list);
+	//user input
 	void Input();
 
 private:

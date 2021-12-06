@@ -16,7 +16,8 @@ void FCMDS::Printer()
 void FCMDS::Help()
 {
 	color::print_color({ 94,224,224 }, "list of all commands:\n");
-	for (const auto& d : cli._dir_list)
+	
+	for (const auto& d : cli.dir_list)
 	{
 		if (d.title == cli.cur_dir)
 		{
@@ -36,9 +37,6 @@ void FCMDS::Help()
 				printf("\n");
 			}
 		}
-		
-		
 	}
-
 }
 
