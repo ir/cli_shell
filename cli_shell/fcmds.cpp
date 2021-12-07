@@ -11,27 +11,19 @@ void FCMDS::ChangeDir(std::string cur_dir, std::string new_dir)
 	
 }
 
-void FCMDS::ChangeTitle(std::vector<std::optional<std::string>> str)
+void FCMDS::ChangeTitle(std::optional<std::string> str)
 {
-	std::string s;
-	for (auto& d : str)
-		if (d.has_value())
-			s += d.value() + " ";
-	s.resize(s.size() - 1);
+	std::string s = str.value();
 
 	if(SetConsoleTitleA((LPCSTR)s.c_str()))
 		color::print_color(color::C_OUT, "set the title to: " + s + "\n");
 }
 
-void FCMDS::Printer(std::vector<std::optional<std::string>> str)
+void FCMDS::Printer(std::optional<std::string> str)
 {
-	std::string s;
-	for (auto& d : str)
-		if (d.has_value())
-			s += d.value() + " ";
-	s.resize(s.size() - 1);
+	std::string s = str.value();
 	
-	color::print_color(color::C_INFO,s + "\n");
+	color::print_color(color::C_OUT,s + "\n\n");
 }
 
 void FCMDS::Cls(std::vector<std::optional<std::string>> str)
@@ -39,7 +31,7 @@ void FCMDS::Cls(std::vector<std::optional<std::string>> str)
 	system("cls");
 }
 
-void FCMDS::Help(std::vector<std::optional<std::string>> str)
+void FCMDS::Help(std::optional<std::string> str)
 {
 	color::print_color({ 94,224,224 }, "list of all commands:\n");
 	

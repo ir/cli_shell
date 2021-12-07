@@ -20,7 +20,7 @@ public:
 	struct commands
 	{
 		std::string title;
-		std::function<void(std::vector<std::optional<std::string>>)> func;
+		std::function<void(std::optional<std::string>)> func;
 		int argsize;
 		std::string help_title;
 	};

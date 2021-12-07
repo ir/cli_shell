@@ -22,8 +22,7 @@ void CLI::InsertDir(std::string title, std::string parent)
 				return;
 		}
 		
-		dir_list.push_back({ title,parent,{{ "help",FCMDS::Help,0,"Help title"}} });
-
+		dir_list.push_back({ title,parent,{{ "help",FCMDS::Help,0,"Help Title" }} });
 		cur_dir = title;
 	}
 	else 
@@ -122,21 +121,27 @@ void CLI::Input()
 				//argsize check
 				if (input_size > d.com_list.at(i).argsize && d.com_list.at(i).title == current_input.at(0))
 				{
-					color::print_color(color::C_ERROR, "Too many arguments\n");
+					color::print_color(color::C_ERROR, "Too many arguments\n\n");
 					return;
 				}
-				else if (input_size < d.com_list.at(i).argsize && d.com_list.at(i).title == current_input.at(0))
+				else if (input_size < 1 && d.com_list.at(i).argsize > 0 && d.com_list.at(i).title == current_input.at(0))
 				{
-					color::print_color(color::C_ERROR, "Not enough arguments\n");
+					color::print_color(color::C_ERROR, "Not enough arguments\n\n");
 					return;
 				}
-				std::vector<std::optional<std::string>> s{};
+			
+				std::vector<std::optional<std::string>> a{};
+				std::string st;
+				std::optional<std::string> s;
 				if (input_size > 0)
 				{
 					for (int j = 1; j < current_input.size(); j++)
-					{
-						s.push_back(current_input.at(j));
-					}
+						a.push_back(current_input.at(j));
+					for (auto& d : a)
+						if (d.has_value())
+							st += d.value() + ' ';
+					st.resize(st.size() - 1);
+					s = st;
 				}
 				//accessing correct command struct
 				if (current_input.at(0) == d.com_list.at(i).title)

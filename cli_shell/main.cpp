@@ -22,11 +22,11 @@ int main()
 	cli.InsertDir("asub", "home");
 	
 	//insert dir items
-	cli.Insert("home", { "print",{FCMDS::Printer},15,"Prints a string" });
-	cli.Insert("home", { "title",{FCMDS::ChangeTitle},1,"Changes the title of the console" });
+	cli.Insert("home", { "print",FCMDS::Printer,16,"Prints a string" });
+	cli.Insert("home", { "title",FCMDS::ChangeTitle,16,"Changes the console's title" });
 	
 
-	cli.Insert("sub", { "cls",{FCMDS::Cls},0,"Clears the screen" });
+	//cli.Insert("sub", { "cls",{FCMDS::Cls},0,"Clears the screen" });
 	
 	while (1)
 	{
