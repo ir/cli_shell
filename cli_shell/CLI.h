@@ -10,20 +10,21 @@
 #include <functional>
 #include <cctype>
 #include <typeinfo>
+#include <optional>
 class CLI
 {
 public:
 	CLI();
 	~CLI();
-
+	
 	struct commands
 	{
 		std::string title;
-		std::function<void()> func;
+		std::function<void(std::vector<std::optional<std::string>>)> func;
 		int argsize;
 		std::string help_title;
 	};
-
+	
 	struct Dir
 	{
 		std::string title;
@@ -34,10 +35,10 @@ public:
 	
 	std::string cur_dir = "";
 	std::vector<Dir> dir_list;
-	//0 = cur command, others = args
+	//index 0 = cur command, others = args
 	std::vector<std::string> current_input;
 	//create new dir
-	void InsertDir(std::string title, std::string parent = "");
+	void InsertDir(std::string title, std::string parent = "__BASE_MENU");
 	//insert item into dir
 	void Insert(std::string dir_title, commands com_list);
 	//user input

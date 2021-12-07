@@ -9,12 +9,23 @@ void FCMDS::ChangeDir(std::string cur_dir, std::string new_dir)
 	
 }
 
-void FCMDS::Printer()
+void FCMDS::Printer(std::vector<std::optional<std::string>> str)
 {
-	color::print_color(color::INFO, "test\n");
+	std::string s;
+	for (auto& d : str)
+		if (d.has_value())
+			s += d.value() + " ";
+	s.resize(s.size() - 1);
+	
+	color::print_color(color::INFO,s + "\n");
 }
 
-void FCMDS::Help()
+void FCMDS::Cls(std::optional<std::string> str)
+{
+	system("cls");
+}
+
+void FCMDS::Help(std::vector<std::optional<std::string>> str)
 {
 	color::print_color({ 94,224,224 }, "list of all commands:\n");
 	
@@ -39,5 +50,6 @@ void FCMDS::Help()
 			}
 		}
 	}
+	printf("\n");
 }
 
