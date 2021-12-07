@@ -19,10 +19,9 @@ void FCMDS::ChangeTitle(std::vector<std::optional<std::string>> str)
 			s += d.value() + " ";
 	s.resize(s.size() - 1);
 
-	SetConsoleTitleA((LPCSTR)s.c_str());
-	color::print_color(color::C_OUT, "set the title to: " + s + "\n");
+	if(SetConsoleTitleA((LPCSTR)s.c_str()))
+		color::print_color(color::C_OUT, "set the title to: " + s + "\n");
 }
-
 
 void FCMDS::Printer(std::vector<std::optional<std::string>> str)
 {

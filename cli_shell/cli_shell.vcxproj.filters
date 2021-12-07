@@ -32,10 +32,10 @@
     <ClInclude Include="CLI.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="fcmds.h">
+    <ClInclude Include="string.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="string.h">
+    <ClInclude Include="fcmds.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

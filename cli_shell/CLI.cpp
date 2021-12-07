@@ -1,6 +1,7 @@
 #include "CLI.h"
 #include "string.h"
 #include "fcmds.h"
+#include <thread>
 CLI::CLI()
 {
 	color::print_color(color::C_INFO, "CLI created\n");
@@ -118,7 +119,6 @@ void CLI::Input()
 		{
 			for (int i = 0; i < d.com_list.size(); i++)
 			{
-				
 				//argsize check
 				if (input_size > d.com_list.at(i).argsize && d.com_list.at(i).title == current_input.at(0))
 				{
@@ -143,11 +143,7 @@ void CLI::Input()
 				{
 					if (d.com_list.at(i).func != NULL)
 					{
-						
-					
 						d.com_list.at(i).func( s );
-						
-							
 						return;
 					}
 				}
