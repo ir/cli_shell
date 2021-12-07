@@ -1,13 +1,28 @@
 #include "fcmds.h"
 #include "CLI.h"
+#include <Windows.h>
 CLI cli;
+
 
 void FCMDS::ChangeDir(std::string cur_dir, std::string new_dir)
 {
 	cli.cur_dir = new_dir;
-	color::print_color(color::OUT, "[+] new dir: " + cli.cur_dir + "\n");
+	color::print_color(color::C_OUT, "[+] new dir: " + cli.cur_dir + "\n");
 	
 }
+
+void FCMDS::ChangeTitle(std::vector<std::optional<std::string>> str)
+{
+	std::string s;
+	for (auto& d : str)
+		if (d.has_value())
+			s += d.value() + " ";
+	s.resize(s.size() - 1);
+
+	SetConsoleTitleA((LPCSTR)s.c_str());
+	color::print_color(color::C_OUT, "set the title to: " + s + "\n");
+}
+
 
 void FCMDS::Printer(std::vector<std::optional<std::string>> str)
 {
@@ -17,10 +32,10 @@ void FCMDS::Printer(std::vector<std::optional<std::string>> str)
 			s += d.value() + " ";
 	s.resize(s.size() - 1);
 	
-	color::print_color(color::INFO,s + "\n");
+	color::print_color(color::C_INFO,s + "\n");
 }
 
-void FCMDS::Cls(std::optional<std::string> str)
+void FCMDS::Cls(std::vector<std::optional<std::string>> str)
 {
 	system("cls");
 }
@@ -44,7 +59,7 @@ void FCMDS::Help(std::vector<std::optional<std::string>> str)
 				if (!std::isupper(title.at(0)))
 					title.at(0) = std::toupper(title.at(0));
 
-				color::print_color(color::TEXT, " " + title
+				color::print_color(color::C_TEXT, " " + title
 					+ d.com_list.at(i).help_title);
 				printf("\n");
 			}
@@ -52,4 +67,5 @@ void FCMDS::Help(std::vector<std::optional<std::string>> str)
 	}
 	printf("\n");
 }
+
 

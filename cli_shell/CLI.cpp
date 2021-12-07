@@ -3,12 +3,12 @@
 #include "fcmds.h"
 CLI::CLI()
 {
-	color::print_color(color::INFO, "CLI created\n");
+	color::print_color(color::C_INFO, "CLI created\n");
 }
 
 CLI::~CLI()
 {
-	color::print_color(color::SUCCESS, "CLI destroyed\n");
+	color::print_color(color::C_SUCCESS, "CLI destroyed\n");
 }
 
 void CLI::InsertDir(std::string title, std::string parent)
@@ -34,12 +34,12 @@ void CLI::InsertDir(std::string title, std::string parent)
 			if (d.title == parent)
 			{
 				d.com_list.push_back({title,NULL,0,"_Submenu of: " + d.title});
-				color::print_color(color::OUT, "[+] added submenu:    " + d.title + " of: " + d.parent + "\n");
+				color::print_color(color::C_OUT, "[+] added submenu:    " + d.title + " of: " + d.parent + "\n");
 			}
 			else if (d.title == title)
 			{
 				d.com_list.push_back({ parent,NULL,0,"_ParentMenu of: " + d.title });
-				color::print_color(color::OUT, "[+] added parentmenu: " + d.parent + " of: " + d.title + "\n");
+				color::print_color(color::C_OUT, "[+] added parentmenu: " + d.parent + " of: " + d.title + "\n");
 			}
 		}
 	}
@@ -58,7 +58,7 @@ void CLI::Insert(std::string dir_title, commands com_list)
 	{
 		if (dir_list.at(i).title == dir_title)
 		{
-			color::print_color(color::OUT, "found " + dir_title + "\n");
+			color::print_color(color::C_OUT, "found " + dir_title + "\n");
 			found = true;
 			break;
 		}
@@ -67,8 +67,6 @@ void CLI::Insert(std::string dir_title, commands com_list)
 			i++;
 			continue;
 		}
-		color::print_color(color::ERROR, "couldnt find " + dir_title + "\n");
-		break;
 	}
 	
 
@@ -81,7 +79,7 @@ void CLI::Insert(std::string dir_title, commands com_list)
 	{
 		if (d.title == dir_title)
 		{
-			color::print_color(color::SUCCESS, "[+] added: " + com_list.title + " to: " + d.title + "\n");
+			color::print_color(color::C_SUCCESS, "[+] added: " + com_list.title + " to: " + d.title + "\n");
 			d.com_list.push_back(com_list);
 		}
 	}
@@ -101,7 +99,7 @@ void CLI::Input()
 	{
 		if (!std::isalnum(c) && c != ' ' && c != '_')
 		{
-			color::print_color(color::ERROR, "only characters and integers are allowed\n");
+			color::print_color(color::C_ERROR, "only characters and integers are allowed\n");
 			return;
 		}
 	}
@@ -124,12 +122,12 @@ void CLI::Input()
 				//argsize check
 				if (input_size > d.com_list.at(i).argsize && d.com_list.at(i).title == current_input.at(0))
 				{
-					color::print_color(color::ERROR, "Too many arguments\n");
+					color::print_color(color::C_ERROR, "Too many arguments\n");
 					return;
 				}
 				else if (input_size < d.com_list.at(i).argsize && d.com_list.at(i).title == current_input.at(0))
 				{
-					color::print_color(color::ERROR, "Not enough arguments\n");
+					color::print_color(color::C_ERROR, "Not enough arguments\n");
 					return;
 				}
 				std::vector<std::optional<std::string>> s{};
@@ -172,7 +170,7 @@ void CLI::Input()
 			}
 		}
 	}
-	color::print_color(color::ERROR, "Invalid command\n\n");
+	color::print_color(color::C_ERROR, "Invalid command\n\n");
 	return;
 }
 

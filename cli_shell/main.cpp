@@ -15,17 +15,16 @@ int main()
 {
 	
 	
-	// insert dir 
+	//insert dir 
 	cli.InsertDir("home", "__BASE_MENU");
 	cli.InsertDir("sub", "home");
 	cli.InsertDir("ssub", "sub");
 	cli.InsertDir("asub", "home");
 	
-	
-	
-	//cli.Insert("home", { "cls",{FCMDS::Cls }, 0, "clears the screen"});
-	cli.Insert("home", { "print",{FCMDS::Printer},2,"prints" });
-	// insert dir items
+	//insert dir items
+	cli.Insert("home", { "print",{FCMDS::Printer},15,"Prints a string" });
+	cli.Insert("home", { "title",{FCMDS::ChangeTitle},1,"Changes the title of the console" });
+	cli.Insert("sub", { "cls",{FCMDS::Cls},0,"Clears the screen" });
 	
 	
 	while (1)

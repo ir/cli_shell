@@ -12,11 +12,11 @@ namespace color
 	};
 	enum COL
 	{
-		TEXT = 0,
-		OUT,
-		ERROR,
-		SUCCESS,
-		INFO
+		C_TEXT = 0,
+		C_OUT,
+		C_ERROR,
+		C_SUCCESS,
+		C_INFO
 	};
 	void print_color(int COL, std::string data);
 	void print_color(rgb color, std::string data);
