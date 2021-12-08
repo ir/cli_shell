@@ -32,7 +32,6 @@ public:
 		std::vector<commands> com_list;
 	};
 	
-	
 	std::string cur_dir = "";
 	std::vector<Dir> dir_list;
 	//index 0 = cur command, others = args

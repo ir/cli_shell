@@ -69,7 +69,6 @@ void CLI::Insert(std::string dir_title, commands com_list)
 		}
 	}
 	
-
 	//clean up, tolower
 	com_list.title = string::reduce(com_list.title.c_str());
 	com_list.title = string::trim(com_list.title.c_str());
@@ -97,7 +96,7 @@ void CLI::Input()
 
 	for (const char c : input)
 	{
-		if (!std::isalnum(c) && c != ' ' && c != ':' && c != '\\' && c != '.' && c != '_')
+		if (!std::isalnum(c) && c != ' ' && c != ':' && c != '\\' && c != '.' && c != '_' && c != '-')
 		{
 			color::print_color(color::C_ERROR, "only characters and integers are allowed\n");
 			return;

@@ -1,8 +1,7 @@
 #include "fcmds.h"
 #include "CLI.h"
-#include <Windows.h>
-CLI cli;
 
+CLI cli;
 
 void FCMDS::ChangeDir(std::string cur_dir, std::string new_dir)
 {
@@ -29,6 +28,28 @@ void FCMDS::Printer(std::optional<std::string> str)
 void FCMDS::Cls(std::optional<std::string> str)
 {
 	system("cls");
+}
+
+
+void HELPER::get_out(const char* cmd, std::string& buffer_array)
+{
+	std::array<char, 1024> buffer;
+	std::string result;
+	std::unique_ptr<FILE, decltype(&_pclose)> pipe(_popen(cmd, "r"), _pclose);
+	if (!pipe) {
+		throw std::runtime_error("_popen() failed!");
+	}
+	while (fgets(buffer.data(), buffer.size(), pipe.get()) != nullptr) {
+		result += buffer.data();
+	}
+	buffer_array = result;
+}
+
+void FCMDS::read_exec(std::optional<std::string> str)
+{
+	std::string buffer;
+	HELPER::get_out(str.value().c_str(), buffer);
+	color::print_color(color::C_OUT, buffer + "\n");
 }
 
 void FCMDS::AttachCon(std::optional<std::string> str)
