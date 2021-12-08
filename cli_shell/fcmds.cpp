@@ -26,9 +26,35 @@ void FCMDS::Printer(std::optional<std::string> str)
 	color::print_color(color::C_OUT,s + "\n\n");
 }
 
-void FCMDS::Cls(std::vector<std::optional<std::string>> str)
+void FCMDS::Cls(std::optional<std::string> str)
 {
 	system("cls");
+}
+
+void FCMDS::AttachCon(std::optional<std::string> str)
+{
+	const char* pName = str.value().c_str();
+	HWND hWnd = FindWindowA(0, (LPCSTR)pName);
+	if (!hWnd)
+	{
+		color::print_color(color::C_ERROR, "[-] couldnt find window " + str.value() + "\n\n");
+		return;
+	}
+	color::print_color(color::C_SUCCESS, "[+] found window " + str.value() + "\n");
+	DWORD pId;
+	if (GetWindowThreadProcessId(hWnd, &pId))
+		color::print_color(color::C_SUCCESS, "[+] found processid " + std::to_string(pId) + "\n");
+	FreeConsole();
+	if (AttachConsole(pId))
+	{
+		color::print_color(color::C_SUCCESS, "[+] attached to process " + str.value() +
+			+ "with processid " + std::to_string(pId) + "\n");
+		return;
+	}
+	DWORD l = GetLastError();
+	color::print_color(color::C_ERROR, "[-] error " + std::to_string(l) + "\n\n");
+	AllocConsole();
+
 }
 
 void FCMDS::Help(std::optional<std::string> str)

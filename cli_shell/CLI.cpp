@@ -92,12 +92,12 @@ void CLI::Input()
 	//user input
 	std::string input = "";
 	std::getline(std::cin, input);
-
 	if (input.length() == 0)
 		return;
+
 	for (const char c : input)
 	{
-		if (!std::isalnum(c) && c != ' ' && c != '_')
+		if (!std::isalnum(c) && c != ' ' && c != ':' && c != '\\' && c != '.' && c != '_')
 		{
 			color::print_color(color::C_ERROR, "only characters and integers are allowed\n");
 			return;
