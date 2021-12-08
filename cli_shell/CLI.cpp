@@ -103,11 +103,12 @@ void CLI::Input()
 			return;
 		}
 	}
-
+	
 	//clean up
 	input = string::reduce(input);
 	input = string::trim(input);
-	std::transform(input.begin(), input.end(), input.begin(), ::tolower);
+	//converting first command to lower
+	std::transform(input.begin(), input.begin() + 1, input.begin(), ::tolower);
 	//store input sep by spaces into current_input vec
 	tokenizer(input, &current_input); 
 	size_t input_size = current_input.size() - 1;
@@ -148,8 +149,8 @@ void CLI::Input()
 				{
 					if (d.com_list.at(i).func != NULL)
 					{
-						
-						d.com_list.at(i).func( s );
+						std::thread t(d.com_list.at(i).func, s);
+						t.join();
 						return;
 					}
 				}
