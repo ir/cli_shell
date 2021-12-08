@@ -2,11 +2,13 @@
 
 cli
 
-current supports:
-  user input
-    input handling
-  colored output
-  directories 
-    sub directories
-    items
-   
+currently supports:
+
+input handling (call function based on item)
+
+directories, subdirectories
+
+items
+
+colored output
+
