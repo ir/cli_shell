@@ -58,7 +58,7 @@ void CLI::Insert(std::string dir_title, commands com_list)
 	{
 		if (dir_list.at(i).title == dir_title)
 		{
-			color::print_color(color::C_OUT, "found " + dir_title + "\n");
+			color::print_color(color::C_OUT, "[+] found " + dir_title + "\n");
 			found = true;
 			break;
 		}
@@ -79,7 +79,7 @@ void CLI::Insert(std::string dir_title, commands com_list)
 	{
 		if (d.title == dir_title)
 		{
-			color::print_color(color::C_SUCCESS, "[+] added: " + com_list.title + " to: " + d.title + "\n");
+			color::print_color(color::C_SUCCESS, "[+] added " + com_list.title + " to " + d.title + "\n");
 			d.com_list.push_back(com_list);
 		}
 	}
@@ -148,6 +148,7 @@ void CLI::Input()
 				{
 					if (d.com_list.at(i).func != NULL)
 					{
+						
 						d.com_list.at(i).func( s );
 						return;
 					}

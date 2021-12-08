@@ -16,7 +16,7 @@ void FCMDS::ChangeTitle(std::optional<std::string> str)
 	std::string s = str.value();
 
 	if(SetConsoleTitleA((LPCSTR)s.c_str()))
-		color::print_color(color::C_OUT, "set the title to: " + s + "\n");
+		color::print_color(color::C_OUT, "set the title to: " + s + "\n\n");
 }
 
 void FCMDS::Printer(std::optional<std::string> str)
