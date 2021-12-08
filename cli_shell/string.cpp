@@ -5,17 +5,17 @@ void color::print_color(int COL, std::string data)
     rgb color = { 255,255,255 };
     switch (COL)
     {
-    case C_TEXT: color = { 255,0,255 };
+    case C_TEXT:    color = { 255,0,255 };
           break;
-    case C_OUT: color = { 200,235,255 };
+    case C_OUT:     color = { 200,235,255 };
           break;
-    case C_ERROR: color = { 255,0,0 };
+    case C_ERROR:   color = { 255,0,0 };
           break;
     case C_SUCCESS: color = { 0,255,0 };
           break;
-    case C_INFO: color = { 95,95,225 };
+    case C_INFO:    color = { 95,95,225 };
           break;
-    default: color = { 255,255,255 };
+    default:        color = { 255,255,255 };
            break;
     }
     printf("\033[38;2;%d;%d;%dm%s\033[0m", color.r, color.g, color.b, data.c_str());

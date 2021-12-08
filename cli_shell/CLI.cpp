@@ -115,59 +115,62 @@ void CLI::Input()
 	//iterate commands
 	for (const auto& d : dir_list)
 	{
-		if (d.title == cur_dir)
+		//getting correct dir
+		if (d.title != cur_dir)
 		{
-			for (int i = 0; i < d.com_list.size(); i++)
+			return;
+		}
+		for (int i = 0; i < d.com_list.size(); i++)
+		{
+			//argsize check
+			if (input_size > d.com_list.at(i).argsize && d.com_list.at(i).title == current_input.at(0))
 			{
-				//argsize check
-				if (input_size > d.com_list.at(i).argsize && d.com_list.at(i).title == current_input.at(0))
+				color::print_color(color::C_ERROR, "Too many arguments\n\n");
+				return;
+			}
+			else if (input_size < 1 && d.com_list.at(i).argsize > 0 && d.com_list.at(i).title == current_input.at(0))
+			{
+				color::print_color(color::C_ERROR, "Not enough arguments\n\n");
+				return;
+			}
+		
+			std::vector<std::optional<std::string>> a{};
+			std::string st;
+			std::optional<std::string> s;
+			//storing arguments into one string instead of vector
+			if (input_size > 0)
+			{
+				for (int j = 1; j < current_input.size(); j++)
+					a.push_back(current_input.at(j));
+				for (auto& d : a)
+					if (d.has_value())
+						st += d.value() + ' ';
+				st.resize(st.size() - 1);
+				s = st;
+			}
+			//accessing correct command struct to call func
+			if (current_input.at(0) == d.com_list.at(i).title)
+			{
+				if (d.com_list.at(i).func != NULL)
 				{
-					color::print_color(color::C_ERROR, "Too many arguments\n\n");
+					std::thread t(d.com_list.at(i).func, s);
+					t.join();
 					return;
 				}
-				else if (input_size < 1 && d.com_list.at(i).argsize > 0 && d.com_list.at(i).title == current_input.at(0))
+			}
+			else // changing dir (this is a weird hack but it works so oh well)
+			{
+				for (auto& dd : dir_list)
 				{
-					color::print_color(color::C_ERROR, "Not enough arguments\n\n");
-					return;
-				}
-			
-				std::vector<std::optional<std::string>> a{};
-				std::string st;
-				std::optional<std::string> s;
-				if (input_size > 0)
-				{
-					for (int j = 1; j < current_input.size(); j++)
-						a.push_back(current_input.at(j));
-					for (auto& d : a)
-						if (d.has_value())
-							st += d.value() + ' ';
-					st.resize(st.size() - 1);
-					s = st;
-				}
-				//accessing correct command struct
-				if (current_input.at(0) == d.com_list.at(i).title)
-				{
-					if (d.com_list.at(i).func != NULL)
+					if ((current_input.at(0) == dd.parent && dd.parent != "__BASE_MENU"))
 					{
-						std::thread t(d.com_list.at(i).func, s);
-						t.join();
+						FCMDS::ChangeDir(cur_dir, dd.parent);
 						return;
 					}
-				}
-				else // this is a weird hack but it works so oh well
-				{
-					for (auto& dd : dir_list)
+					else if ((current_input.at(0) == dd.title && dd.parent == d.title) && dd.title != d.title)
 					{
-						if ((current_input.at(0) == dd.parent && dd.parent != "__BASE_MENU"))
-						{
-							FCMDS::ChangeDir(cur_dir, dd.parent);
-							return;
-						}
-						else if ((current_input.at(0) == dd.title && dd.parent == d.title) && dd.title != d.title)
-						{
-							FCMDS::ChangeDir(cur_dir, current_input.at(0));
-							return;
-						}
+						FCMDS::ChangeDir(cur_dir, current_input.at(0));
+						return;
 					}
 				}
 			}
