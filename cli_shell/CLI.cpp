@@ -59,7 +59,7 @@ void CLI::Insert(std::string dir_title, commands com_list)
 	{
 		if (dir_list.at(i).title == dir_title)
 		{
-			color::print_color(color::C_OUT, "[+] found " + dir_title + "\n");
+			//color::print_color(color::C_OUT, "[+] found " + dir_title + "\n");
 			found = true;
 			break;
 		}
