@@ -25,5 +25,6 @@ namespace FCMDS
 	void ChangeTitle(std::optional<std::string> str);
 	void Cls(std::optional<std::string> str);
 	void AttachCon(std::optional<std::string> str);
+	void sysc(std::optional<std::string> str);
 }
 #endif // !__FCMDS

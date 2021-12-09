@@ -141,12 +141,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ccmds.cpp" />
     <ClCompile Include="CLI.cpp" />
     <ClCompile Include="fcmds.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="string.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ccmds.h" />
     <ClInclude Include="CLI.h" />
     <ClInclude Include="fcmds.h" />
     <ClInclude Include="string.h" />

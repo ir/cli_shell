@@ -95,6 +95,7 @@ void CLI::Input()
 	if (input.length() == 0)
 		return;
 
+	/*
 	for (const char c : input)
 	{
 		if (!std::isalnum(c) && c != ' ' && c != ':' && c != '\\' && c != '.' && c != '_' && c != '-')
@@ -103,7 +104,7 @@ void CLI::Input()
 			return;
 		}
 	}
-	
+	*/
 	//clean up
 	input = string::reduce(input);
 	input = string::trim(input);
@@ -135,24 +136,44 @@ void CLI::Input()
 				std::vector<std::optional<std::string>> a{};
 				std::string st;
 				std::optional<std::string> s;
+				bool is_thread = false;
 				//storing arguments into one string instead of vector
 				if (input_size > 0)
 				{
 					for (int j = 1; j < current_input.size(); j++)
 						a.push_back(current_input.at(j));
+					if (a[0] == "-t")
+					{
+						is_thread = true;
+						a.erase(a.begin());
+						if (a.size() < 1)
+						{
+							color::print_color(color::C_ERROR, "Not enough arguments\n\n");
+							return;
+						}
+					}
+					
 					for (auto& d : a)
 						if (d.has_value())
 							st += d.value() + ' ';
 					st.resize(st.size() - 1);
 					s = st;
+					
 				}
 				//accessing correct command struct to call func
 				if (current_input.at(0) == d.com_list.at(i).title)
 				{
 					if (d.com_list.at(i).func != NULL)
 					{
-						std::thread t(d.com_list.at(i).func, s);
-						t.join();
+						if (is_thread)
+						{
+							color::print_color(color::C_OUT, "[+] thread\n");
+							std::thread t(d.com_list.at(i).func, s);
+							t.join();
+						}
+						else
+							d.com_list.at(i).func(s);
+						
 						return;
 					}
 				}

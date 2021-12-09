@@ -27,6 +27,12 @@ void FCMDS::Printer(std::optional<std::string> str)
 	color::print_color(color::C_OUT,s + "\n\n");
 }
 
+void FCMDS::sysc(std::optional<std::string> str)
+{
+	system(str.value().c_str());
+	system("cls");
+}
+
 void FCMDS::Cls(std::optional<std::string> str)
 {
 	system("cls");
@@ -49,6 +55,11 @@ void HELPER::get_out(const char* cmd, std::string& buffer_array)
 void FCMDS::read_exec(std::optional<std::string> str)
 {
 	std::string buffer;
+	char cur;
+	std::vector<std::string> v;
+	cli.tokenizer(str.value(), &v);
+	
+	
 	HELPER::get_out(str.value().c_str(), buffer);
 	color::print_color(color::C_OUT, buffer + "\n");
 }
