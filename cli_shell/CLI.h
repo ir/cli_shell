@@ -11,6 +11,7 @@
 #include <cctype>
 #include <typeinfo>
 #include <optional>
+#include <Windows.h>
 class CLI
 {
 public:
@@ -42,7 +43,8 @@ public:
 	void Insert(std::string dir_title, commands com_list);
 	//user input
 	void Input();
-
+	//console vars
+	LPWSTR original_title[128];
 private:
 	void tokenizer(std::string s, std::vector<std::string>* v);
 };

@@ -14,8 +14,10 @@ void FCMDS::ChangeTitle(std::optional<std::string> str)
 {
 	std::string s = str.value();
 
-	if(SetConsoleTitleA((LPCSTR)s.c_str()))
+	if (SetConsoleTitleA((LPCSTR)s.c_str()))
+	{
 		color::print_color(color::C_OUT, "set the title to: " + s + "\n\n");
+	}
 }
 
 void FCMDS::Printer(std::optional<std::string> str)
@@ -53,35 +55,39 @@ void FCMDS::read_exec(std::optional<std::string> str)
 
 void FCMDS::AttachCon(std::optional<std::string> str)
 {
-	const char* pName = str.value().c_str();
+	LPWSTR pName = (LPWSTR)str.value().c_str();
 	HWND hWnd = FindWindowA(0, (LPCSTR)pName);
 	if (!hWnd)
 	{
-		color::print_color(color::C_ERROR, "[-] couldnt find window " + str.value() + "\n\n");
+		color::print_color(color::C_ERROR, "[-] couldnt find window, error " + std::to_string(GetLastError()));
 		return;
 	}
-	//color::print_color(color::C_SUCCESS, "[+] found window " + str.value() + "\n");
+
 	DWORD pId;
 	GetWindowThreadProcessId(hWnd, &pId);
-		//color::print_color(color::C_SUCCESS, "[+] found processid " + std::to_string(pId) + "\n");
+
+	color::print_color(color::C_SUCCESS, "[+] found window " + str.value() + "\n");
+	color::print_color(color::C_SUCCESS, "[+] found processid " + std::to_string(pId) + "\n");
+
 	FreeConsole();
+	
 	AttachConsole(pId);
 	
-	color::print_color(color::C_SUCCESS, "[+] attached to process " + str.value() +
-		+ " with processid " + std::to_string(pId) + "\n");
-
-	DWORD l = GetLastError();
-	color::print_color(color::C_ERROR, "[-] error " + std::to_string(l) + "\n\n");
-	AllocConsole();
-
+	if (AllocConsole())
+	{
+		color::print_color(color::C_SUCCESS, "[+] attached to process " + str.value() +
+			+" with processid " + std::to_string(pId) + "\n");
+		SetConsoleTitleA((LPCSTR)pName);
+	}
 }
 
 void FCMDS::Help(std::optional<std::string> str)
 {
 	color::print_color({ 94,224,224 }, "list of all commands:\n");
-	
+
 	for (const auto& d : cli.dir_list)
 	{
+		
 		if (d.title == cli.cur_dir)
 		{
 			for (int i = 0; i < d.com_list.size(); i++)
@@ -103,5 +109,3 @@ void FCMDS::Help(std::optional<std::string> str)
 	}
 	printf("\n");
 }
-
-

@@ -17,6 +17,8 @@ namespace FCMDS
 {
 	void ChangeDir(std::string cur_dir, std::string new_dir);
 
+	//make error handler
+	//call color_print then pass getlasterror converted as string?
 	void Help(std::optional<std::string> str);
 	void read_exec(std::optional<std::string> str);
 	void Printer(std::optional<std::string> str);
