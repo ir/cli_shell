@@ -87,8 +87,8 @@ void CLI::Insert(std::string dir_title, commands com_list)
 
 void CLI::Input()
 {
-	color::print_color({ 94,94,224 }, cur_dir);
-	color::print_color({ 94,159,224 }, " > ");
+	color::print_color({ 224,94,159 }, cur_dir);
+	color::print_color({ 94,159,224 }, "\nB> ");
 	//user input
 	std::string input = "";
 	std::getline(std::cin, input);
