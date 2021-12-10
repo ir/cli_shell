@@ -1,6 +1,5 @@
 #include "fcmds.h"
 #include "CLI.h"
-
 CLI cli;
 
 void FCMDS::ChangeDir(std::string cur_dir, std::string new_dir)
@@ -52,6 +51,11 @@ void HELPER::get_out(const char* cmd, std::string& buffer_array)
 	buffer_array = result;
 }
 
+void FCMDS::roblox::unlock_fps(std::optional<std::string> str)
+{
+	FCMDS::sysc("D:\\projects\\rbxfpsunlocker.exe");
+}
+
 void FCMDS::read_exec(std::optional<std::string> str)
 {
 	std::string buffer;
@@ -62,6 +66,12 @@ void FCMDS::read_exec(std::optional<std::string> str)
 	
 	HELPER::get_out(str.value().c_str(), buffer);
 	color::print_color(color::C_OUT, buffer + "\n");
+}
+
+void FCMDS::roblox::multi_client(std::optional<std::string> str)
+{
+	if (CreateMutex(NULL, TRUE, L"ROBLOX_singletonMutex")) //bInitialOwner is TRUE, takes ownership and holds it until this process exits
+		color::print_color(color::C_SUCCESS, "[+] now able to use multiple clients\n\n");
 }
 
 void FCMDS::AttachCon(std::optional<std::string> str)
