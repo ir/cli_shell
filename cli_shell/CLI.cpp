@@ -54,7 +54,7 @@ void CLI::Insert(std::string dir_title, commands com_list)
 		com_list.title = com_list.title.substr(0, 16);
 
 	bool found = false;
-	int i = 0;
+	size_t i = 0;
 	while (found == false && i < dir_list.size())
 	{
 		if (dir_list.at(i).title == dir_title)
@@ -95,16 +95,6 @@ void CLI::Input()
 	if (input.length() == 0)
 		return;
 
-	/*
-	for (const char c : input)
-	{
-		if (!std::isalnum(c) && c != ' ' && c != ':' && c != '\\' && c != '.' && c != '_' && c != '-')
-		{
-			color::print_color(color::C_ERROR, "only characters and integers are allowed\n");
-			return;
-		}
-	}
-	*/
 	//clean up
 	input = string::reduce(input);
 	input = string::trim(input);
@@ -119,10 +109,10 @@ void CLI::Input()
 		//getting correct dir
 		if (d.title == cur_dir)
 		{
-			for (int i = 0; i < d.com_list.size(); i++)
+			for (size_t i = 0; i < d.com_list.size(); i++)
 			{
 				//argsize check
-				if (input_size > d.com_list.at(i).argsize && d.com_list.at(i).title == current_input.at(0))
+				if (input_size > (size_t)d.com_list.at(i).argsize && d.com_list.at(i).title == current_input.at(0))
 				{
 					color::print_color(color::C_ERROR, "Too many arguments\n\n");
 					return;
@@ -140,7 +130,7 @@ void CLI::Input()
 				//storing arguments into one string instead of vector
 				if (input_size > 0)
 				{
-					for (int j = 1; j < current_input.size(); j++)
+					for (size_t j = 1; j < current_input.size(); j++)
 						a.push_back(current_input.at(j));
 					if (a[0] == "-t")
 					{

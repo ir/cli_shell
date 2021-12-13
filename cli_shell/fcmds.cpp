@@ -59,10 +59,8 @@ void FCMDS::roblox::unlock_fps(std::optional<std::string> str)
 void FCMDS::read_exec(std::optional<std::string> str)
 {
 	std::string buffer;
-	char cur;
 	std::vector<std::string> v;
 	cli.tokenizer(str.value(), &v);
-	
 	
 	HELPER::get_out(str.value().c_str(), buffer);
 	color::print_color(color::C_OUT, buffer + "\n");
@@ -111,7 +109,7 @@ void FCMDS::Help(std::optional<std::string> str)
 		
 		if (d.title == cli.cur_dir)
 		{
-			for (int i = 0; i < d.com_list.size(); i++)
+			for (size_t i = 0; i < d.com_list.size(); i++)
 			{
 				std::string title = d.com_list.at(i).title;
 				if (title.length() > 16)
