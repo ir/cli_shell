@@ -4,7 +4,7 @@
 #include <thread>
 CLI::CLI()
 {	
-	SetConsoleTitleA((LPCSTR)"brasilhook");
+	SetConsoleTitleA((LPCSTR)"console");
 	color::print_color(color::C_INFO, "CLI created\n");
 }
 
@@ -15,7 +15,7 @@ CLI::~CLI()
 
 void CLI::InsertDir(std::string title, std::string parent)
 {
-	if (parent == "__BASE_MENU")
+	if (parent == "__BASE_MENU") // adding the base parent menu
 	{
 		for (const auto& d : dir_list)
 		{
@@ -26,11 +26,11 @@ void CLI::InsertDir(std::string title, std::string parent)
 		dir_list.push_back({ title,parent,{{ "help",FCMDS::Help,0,"Help Title" } }});
 		cur_dir = title;
 	}
-	else 
+	else // submenu
 	{
 		dir_list.push_back({ title,parent,{{ "help",FCMDS::Help,0,"Help title"}}});
 
-		for (auto& d : dir_list)
+		for (auto& d : dir_list) 
 		{
 			if (d.title == parent)
 			{
@@ -55,7 +55,7 @@ void CLI::Insert(std::string dir_title, commands com_list)
 
 	bool found = false;
 	size_t i = 0;
-	while (found == false && i < dir_list.size())
+	while (found == false && i < dir_list.size()) // finding parent dir
 	{
 		if (dir_list.at(i).title == dir_title)
 		{
@@ -75,7 +75,7 @@ void CLI::Insert(std::string dir_title, commands com_list)
 	com_list.title = string::trim(com_list.title.c_str());
 	std::transform(com_list.title.begin(), com_list.title.end(), com_list.title.begin(), ::tolower);
 	
-	for (auto& d : dir_list)
+	for (auto& d : dir_list) // inserting dir
 	{
 		if (d.title == dir_title)
 		{
@@ -127,8 +127,8 @@ void CLI::Input()
 				std::string st;
 				std::optional<std::string> s;
 				bool is_thread = false;
-				//storing arguments into one string instead of vector
-				if (input_size > 0)
+				//storing arguments into one string instead of vector (? dont remember what this comment was for)
+				if (input_size > 0) // checks for arguments, then checks if its a thread (1st arg). (dont remember why i was doing this but its here, not sure if the code for running functions even supports threads)
 				{
 					for (size_t j = 1; j < current_input.size(); j++)
 						a.push_back(current_input.at(j));
@@ -159,7 +159,7 @@ void CLI::Input()
 						{
 							color::print_color(color::C_OUT, "[+] thread\n");
 							std::thread t(d.com_list.at(i).func, s);
-							t.join();
+							t.join(); // as stated previously, probably doesnt even work
 						}
 						else
 							d.com_list.at(i).func(s);
