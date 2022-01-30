@@ -51,11 +51,6 @@ void HELPER::get_out(const char* cmd, std::string& buffer_array)
 	buffer_array = result;
 }
 
-void FCMDS::roblox::unlock_fps(std::optional<std::string> str)
-{
-	FCMDS::sysc("D:\\projects\\rbxfpsunlocker.exe");
-}
-
 void FCMDS::read_exec(std::optional<std::string> str)
 {
 	std::string buffer;
@@ -66,6 +61,7 @@ void FCMDS::read_exec(std::optional<std::string> str)
 	color::print_color(color::C_OUT, buffer + "\n");
 }
 
+// i dont think this works, but its here if you're interested
 void FCMDS::roblox::multi_client(std::optional<std::string> str)
 {
 	if (CreateMutex(NULL, TRUE, L"ROBLOX_singletonMutex")) //bInitialOwner is TRUE, takes ownership and holds it until this process exits
@@ -100,6 +96,7 @@ void FCMDS::AttachCon(std::optional<std::string> str)
 	}
 }
 
+//enjoy this code 👍
 void FCMDS::Help(std::optional<std::string> str)
 {
 	color::print_color({ 94,224,224 }, "list of all commands:\n");
