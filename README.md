@@ -1,5 +1,7 @@
 # cli_shell
 
+**new version: https://github.com/ir/cli-v2 **
+
 type help for list of commands
 
 
